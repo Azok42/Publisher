@@ -20,6 +20,10 @@ public class Spiel {
         this.price = price;
     }
 
+    public int getBewertung() {
+        return this.bewertung;
+    }
+
     public double suggestOptimalPrice() {
         return 0;
     }
