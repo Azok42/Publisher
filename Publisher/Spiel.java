@@ -29,6 +29,11 @@ public class Spiel {
     }
 
     public boolean checkAboOverlap(Abo newAbo) {
+        for (Abo currentAbo : this.abos) {
+            if(currentAbo.getType().equals(newAbo.getType()) && 
+               currentAbo.getDuration() == newAbo.getDuration())
+                return true;
+        }
         return false;
     }
 
