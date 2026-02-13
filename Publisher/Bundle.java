@@ -1,3 +1,9 @@
 package Publisher;
 
-public class Bundle {}
+public class Bundle {
+  private double price;
+
+  public double getPrice() {
+    return price;
+  }
+}

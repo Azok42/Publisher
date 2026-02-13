@@ -9,6 +9,7 @@ public class Publisher {
   private String motto;
   private ArrayList<PublisherSale> publisherSales;
   private ArrayList<Spiel> spiele;
+  private ArrayList<Purchase> purchases;
 
   public Publisher(String fname, String motto) {
     this.fname = fname;
@@ -17,8 +18,8 @@ public class Publisher {
 
   public Publisher(
     String fname,
-    String mottol,
-    ArrayList<PublisherSale> publisherSalesm,
+    String motto,
+    ArrayList<PublisherSale> publisherSales,
     ArrayList<Spiel> spiele
   ) {
     this.fname = fname;
@@ -28,7 +29,23 @@ public class Publisher {
   }
 
   public double calculatePublisherRevenue(Date start, Date end) {
-    return 0;
+    double revenue = 0;
+    for (Purchase purchase : purchases) {
+      if (purchase.getDate().after(start) && purchase.getDate().before(end)) {
+        double price = 0;
+        if (purchase.getPurchasedGame() != null) {
+          price += purchase.getPurchasedBundle().getPrice();
+        } else if (purchase.getPurchasedBundle() != null) {
+          price += purchase.getPurchasedBundle().getPrice(); // TODO check if date is valid
+        } else if (purchase.getSubscription() != null) {
+          price += purchase.getSubscription().getPrice(); // TODO get Price for current Duration
+        }
+        // TODO account for publisher sales while checking if range is valid
+        // TODO add to revenue
+      }
+    }
+
+    return revenue;
   }
 
   public ArrayList<Spiel> getTopSpieleByBewertung(int count) {
