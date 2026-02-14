@@ -7,31 +7,30 @@ public class Abo {
   private double rent; // per month
   private Spiel game;
 
-  public Abo() {
-    this.type = "Type not set";
-    this.duration = -1;
-    this.rent = -1;
-  }
-
-  public Abo(String type, double duration, double rent) {
+  public Abo(String type, double duration, double rent, Spiel game) {
     this.type = type;
     this.duration = duration;
     this.rent = rent;
+    this.game = game;
   }
 
-  public String getType() {
-    return this.type;
-  }
-
-  public double getDuration() {
-    return this.duration;
-  }
-
-  public double getRent() {
-    return this.rent;
+  public Spiel getGame() {
+    return game;
   }
 
   public double getPriceForDuration() {
     return rent * duration;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public double getDuration() {
+    return duration;
+  }
+
+  public double getRent() {
+    return rent;
   }
 }
