@@ -12,6 +12,11 @@ import java.util.Date;
  */
 public class Publisher {
 
+  /**
+   * The maximum number of bundles allowed per publisher.
+   */
+  public static final int MAX_PUBLISHER_SALES = 3;
+
   private String fname;
   private String motto;
   private ArrayList<PublisherSale> publisherSales;
@@ -64,8 +69,8 @@ public class Publisher {
   /**
    * Finds the top games of the publisher.
    *
-   * @param count
-   * @return the top games sorted after their rating
+   * @param count the number of top games to return
+   * @return the top {@code count} games sorted after their rating
    */
   public ArrayList<Spiel> getTopSpieleByBewertung(int count) {
     ArrayList<Spiel> topSpiele = new ArrayList<Spiel>();
@@ -92,12 +97,31 @@ public class Publisher {
     return avg / publisherSales.size();
   }
 
-  public static Bundle getMostPopularBundle(Date start, Date end) {
-    return null; //TODO: Implement getMostPopularBundle
+  /**
+   * Gets the most popular bundle by sales. If two bundles have the same amount of sales, only the first one in the list will be returned.
+   *
+   * @param start start date (excluded)
+   * @param end end date (excluded)
+   * @return first Bundle with the most sales
+   */
+  public Bundle getMostPopularBundle(Date start, Date end) {
+    if (bundles == null || bundles.isEmpty()) return null;
+    Bundle pBundle = null;
+    for (Bundle bundle : bundles) {
+      if (bundle.getStart().after(start) && bundle.getEnd().before(end)) {
+        if (pBundle == null || bundle.getSales() > pBundle.getSales()) {
+          pBundle = bundle;
+        }
+      }
+    }
+    return pBundle;
   }
 
+  /** 
+   * @return Whether the current amount of publisher sales is below the limit of {@value #MAX_PUBLISHER_SALES}
+   */
   public Boolean validatePublisherSaleLimit() {
-    return false; //TODO: Implement validatePublisherSaleLimit
+    return (publisherSales.size() >= MAX_PUBLISHER_SALES) ? true : false;
   }
 
   public boolean generatePublisherReport(String report) {

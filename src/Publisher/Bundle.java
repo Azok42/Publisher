@@ -7,6 +7,7 @@ public class Bundle extends Angebot {
 
   private double price;
   private ArrayList<Spiel> spiele;
+  private int sales;
 
   public Bundle(
     String label,
@@ -19,6 +20,7 @@ public class Bundle extends Angebot {
     super(label, text, start, end);
     this.price = price;
     this.spiele = spiele;
+    sales = 0;
   }
 
   public double adjustBundlePrice(double amount) {
@@ -35,5 +37,9 @@ public class Bundle extends Angebot {
 
   public ArrayList<Spiel> getSpiele() {
     return spiele;
+  }
+
+  public int getSales() {
+    return sales;
   }
 }

@@ -1,5 +1,8 @@
 {
   "recommendations": [
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "keeganbruer.javadoc-generator",
+    "hediet.vscode-drawio",
+    "madhavd1.javadoc-tools",
   ]
 }
