@@ -1,10 +1,10 @@
-package Publisher;
+package src.Publisher;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Represents a game Publisher.
+ * Represents a game Publisher.<br>
  *
  * It manages games, purchases from customers and publisher sales.
  * It also provides methods for analysis, game ranking, validation and reports.
@@ -17,18 +17,15 @@ public class Publisher {
   private ArrayList<PublisherSale> publisherSales;
   private ArrayList<Spiel> spiele;
   private ArrayList<Purchase> purchases;
+  private ArrayList<Bundle> bundles;
 
-  public Publisher(
-    String fname,
-    String motto,
-    ArrayList<PublisherSale> publisherSales,
-    ArrayList<Spiel> spiele
-  ) {
+  public Publisher(String fname, String motto) {
     this.fname = fname;
     this.motto = motto;
-    this.publisherSales = publisherSales;
-    this.spiele = spiele;
+    publisherSales = new ArrayList<PublisherSale>();
+    spiele = new ArrayList<Spiel>();
     purchases = new ArrayList<Purchase>();
+    bundles = new ArrayList<Bundle>();
   }
 
   /**
@@ -81,9 +78,9 @@ public class Publisher {
     return (ArrayList<Spiel>) topSpiele.subList(0, count);
   }
 
-  /** 
+  /**
    * Calculates the average discount of the publisher's publisher sales
-   * 
+   *
    * @return the average discount in %
    */
   public double calculateAverageDiscount() {
@@ -115,15 +112,35 @@ public class Publisher {
     return motto;
   }
 
+  public boolean addPublisherSale(PublisherSale publisherSale) {
+    return publisherSales.add(publisherSale);
+  }
+
   public ArrayList<PublisherSale> getPublisherSales() {
     return publisherSales;
+  }
+
+  public boolean addSpiel(Spiel spiel) {
+    return spiele.add(spiel);
   }
 
   public ArrayList<Spiel> getSpiele() {
     return spiele;
   }
 
+  public boolean addPurchase(Purchase purchase) {
+    return purchases.add(purchase);
+  }
+
   public ArrayList<Purchase> getPurchases() {
     return purchases;
+  }
+
+  public boolean addBundle(Bundle bundle) {
+    return bundles.add(bundle);
+  }
+
+  public ArrayList<Bundle> getBundles() {
+    return bundles;
   }
 }

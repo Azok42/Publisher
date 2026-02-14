@@ -1,6 +1,5 @@
-package Publisher;
+package src.Publisher;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Purchase {

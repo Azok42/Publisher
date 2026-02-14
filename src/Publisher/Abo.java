@@ -1,4 +1,4 @@
-package Publisher;
+package src.Publisher;
 
 public class Abo {
 
