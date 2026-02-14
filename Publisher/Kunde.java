@@ -15,11 +15,11 @@ public class Kunde {
   }
 
   public ArrayList<Spiel> recommendSpieleForKunde() {
-    return null; //TODO: Implement
+    return null; //TODO: Implement recommendSpieleForKunde
   }
 
   public PublisherSale generatePersonalizedSale(Publisher publisher) {
-    return null; //TODO: Implement
+    return null; //TODO: Implement generatePersonalizedSale
   }
 
   public String getEmail() {
@@ -39,12 +39,12 @@ public class Kunde {
   }
 
   public ArrayList<Spiel> getSpieleFromPublisherSales() {
-  ArrayList<Spiel> result = new ArrayList<>();
-  for (Purchase p : purchases) {
-    if (p.getPublisherSale() != null) {
-      //TODO: Track games from publisher sales
+    ArrayList<Spiel> result = new ArrayList<>();
+    for (Purchase p : purchases) {
+      if (p.getPublisherSale() != null) {
+        //TODO: Track games from publisher sales
+      }
     }
+    return result;
   }
-  return result;
-}
 }

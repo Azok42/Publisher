@@ -20,7 +20,7 @@ public class PublisherSale extends Angebot {
   }
 
   public double simulateRabattImpact(double price) {
-    return 0; //TODO: Implement
+    return 0; //TODO: Implement simulateRabattImpact
   }
 
   public double getRabatt() {
@@ -31,8 +31,8 @@ public class PublisherSale extends Angebot {
     return purchases;
   }
 
-  public boolean addPurchase(Purchase purchase){
-    //TODO: validate Date
+  public boolean addPurchase(Purchase purchase) {
+    //TODO: validate Date for addPurchase
     return purchases.add(purchase);
   }
 }

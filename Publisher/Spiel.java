@@ -25,15 +25,15 @@ public class Spiel {
   }
 
   public double suggestOptimalPrice() {
-    return 0; //TODO: Implement
+    return 0; //TODO: Implement suggestOptimalPrice
   }
 
   public boolean checkAboOverlap(Abo newAbo) {
-    return false; //TODO: Implement
+    return false; //TODO: Implement checkAboOverlap
   }
 
   public void syncSpielPreisBundle() {
-    return; //TODO: Implement
+    return; //TODO: Implement syncSpielPreisBundle
   }
 
   public double getPrice() {

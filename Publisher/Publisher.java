@@ -3,6 +3,13 @@ package Publisher;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Represents a game Publisher.
+ *
+ * It manages games, purchases from customers and publisher sales.
+ * It also provides methods for analysis, game ranking, validation and reports.
+ * @author Jame Bayerl
+ */
 public class Publisher {
 
   private String fname;
@@ -24,6 +31,14 @@ public class Publisher {
     purchases = new ArrayList<Purchase>();
   }
 
+  /**
+   * Calculates publishers revenue in a date range accounting for purchased games, bundles, subscriptions and publisher sales.
+   * Multiple Publisher sales will apply multiplicative discounts
+   *
+   * @param start start date (excluded)
+   * @param end end date (excluded)
+   * @return the revenue of the publisher
+   */
   public double calculatePublisherRevenue(Date start, Date end) {
     double revenue = 0;
     if (purchases == null) return 0;
@@ -46,10 +61,15 @@ public class Publisher {
         revenue += price;
       }
     }
-
     return revenue;
   }
 
+  /**
+   * Finds the top games of the publisher.
+   *
+   * @param count
+   * @return the top games sorted after their rating
+   */
   public ArrayList<Spiel> getTopSpieleByBewertung(int count) {
     ArrayList<Spiel> topSpiele = new ArrayList<Spiel>();
     for (Spiel spiel : spiele) {
@@ -61,20 +81,30 @@ public class Publisher {
     return (ArrayList<Spiel>) topSpiele.subList(0, count);
   }
 
+  /** 
+   * Calculates the average discount of the publisher's publisher sales
+   * 
+   * @return the average discount in %
+   */
   public double calculateAverageDiscount() {
-    return 0; //TODO: Implement
+    if (publisherSales == null) return 0;
+    double avg = 0;
+    for (PublisherSale ps : publisherSales) {
+      avg += ps.getRabatt();
+    }
+    return avg / publisherSales.size();
   }
 
   public static Bundle getMostPopularBundle(Date start, Date end) {
-    return null; //TODO: Implement
+    return null; //TODO: Implement getMostPopularBundle
   }
 
   public Boolean validatePublisherSaleLimit() {
-    return false; //TODO: Implement
+    return false; //TODO: Implement validatePublisherSaleLimit
   }
 
   public boolean generatePublisherReport(String report) {
-    return false; //TODO: Implement
+    return false; //TODO: Implement generatePublisherReport
   }
 
   public String getFname() {

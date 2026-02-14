@@ -22,11 +22,11 @@ public class Bundle extends Angebot {
   }
 
   public double adjustBundlePrice(double amount) {
-    return 0; //TODO: Implement
+    return 0; //TODO: Implement adjustBundlePrice
   }
 
   public double predictBundleSuccess() {
-    return 0; //TODO: Implement
+    return 0; //TODO: Implement predictBundleSuccess
   }
 
   public double getPrice() {

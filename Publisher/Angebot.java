@@ -17,7 +17,7 @@ public abstract class Angebot {
   }
 
   public static int cleanupExpiredAngebote() {
-    return 0; //TODO: Implement
+    return 0; //TODO: Implement cleanupExpiredAngebote
   }
 
   public Date getStart() {
