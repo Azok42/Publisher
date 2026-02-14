@@ -30,18 +30,24 @@ public class Publisher {
 
   public double calculatePublisherRevenue(Date start, Date end) {
     double revenue = 0;
+    if (purchases == null) return 0;
     for (Purchase purchase : purchases) {
       if (purchase.getDate().after(start) && purchase.getDate().before(end)) {
         double price = 0;
         if (purchase.getPurchasedGame() != null) {
           price += purchase.getPurchasedBundle().getPrice();
         } else if (purchase.getPurchasedBundle() != null) {
-          price += purchase.getPurchasedBundle().getPrice(); // TODO check if date is valid
+          price += purchase.getPurchasedBundle().getPrice();
         } else if (purchase.getSubscription() != null) {
-          price += purchase.getSubscription().getPrice(); // TODO get Price for current Duration
+          price += purchase.getSubscription().getPriceForDuration();
         }
-        // TODO account for publisher sales while checking if range is valid
-        // TODO add to revenue
+        // discounts of publisherSales will be on top of each other, not added
+        for (PublisherSale ps : publisherSales){
+          if (start.before(ps.getStart()) & end.after(ps.getEnd())){
+            price *= (100 - ps.getRabatt())/100;
+          }
+        }
+        revenue += price;
       }
     }
 
