@@ -65,7 +65,7 @@ public class Publisher {
     return 0; //TODO: Implement
   }
 
-  public Bundle getMostPopularBundle(Date start, Date end) {
+  public static Bundle getMostPopularBundle(Date start, Date end) {
     return null; //TODO: Implement
   }
 

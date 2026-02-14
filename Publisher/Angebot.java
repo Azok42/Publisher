@@ -2,7 +2,7 @@ package Publisher;
 
 import java.util.Date;
 
-public class Angebot {
+public abstract class Angebot {
 
   private String label;
   private String text;
