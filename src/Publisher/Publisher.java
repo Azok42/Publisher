@@ -117,7 +117,7 @@ public class Publisher {
     return pBundle;
   }
 
-  /** 
+  /**
    * @return Whether the current amount of publisher sales is below the limit of {@value #MAX_PUBLISHER_SALES}
    */
   public Boolean validatePublisherSaleLimit() {
