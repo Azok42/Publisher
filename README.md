@@ -1,5 +1,8 @@
 # Publisher
 
+## UML
+![UML Diagram](PublisherUML.drawio.svg)
+
 ## Generating the Javadoc
 - Params:
 ```sh
