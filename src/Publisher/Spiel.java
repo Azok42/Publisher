@@ -6,26 +6,80 @@ public class Spiel {
 
   private String name;
   private double price;
-  private int bewertung;
+  private int bewertung; // 1 - 10
+  private ArrayList<Integer> bewertungen;
   private Publisher publisher;
   private ArrayList<Abo> abos;
   private ArrayList<Bundle> bundles;
 
-  public Spiel(String name, double price, int bewertung, Publisher publisher) {
+  public Spiel(
+    String name,
+    double price,
+    ArrayList<Integer> bewertungen,
+    Publisher publisher
+  ) {
     this.name = name;
     this.price = price;
-    this.bewertung = bewertung;
+    this.bewertungen = bewertungen;
+    for (int b : this.bewertungen) if (b > 0 && b < 11) this.bewertung += b;
+    this.bewertung /= this.bewertungen.size();
     this.publisher = publisher;
     abos = new ArrayList<Abo>();
     bundles = new ArrayList<Bundle>();
+  }
+
+  /**
+   * Adds a rating and recalculates the average rating.
+   *
+   * @param rating the rating from 1 - 10
+   * @return the avg. rating {@code bewertung}, -1 if {@code rating} is out of range (1 - 10)
+   */
+  public double rate(int rating) {
+    if (rating < 1 || rating > 10) return -1;
+    bewertungen.add(rating);
+    int newBewertung = 0;
+    for (int b : bewertungen) {
+      if (bewertung > 0 && bewertung < 11) newBewertung += b;
+      else return -1;
+    }
+    bewertung = newBewertung / bewertungen.size();
+    return bewertung;
   }
 
   public int getBewertung() {
     return this.bewertung;
   }
 
+  /**
+   * Calculates the optimal price in comparison to the publishers other games price, accounting for their rating and abo count
+   *
+   * @return the optimal price
+   */
   public double suggestOptimalPrice() {
-    return 0; //TODO: Implement suggestOptimalPrice
+    ArrayList<Spiel> otherGames = new ArrayList<>(publisher.getSpiele());
+    double optimalPrice = 0;
+    double weightSum = 0;
+    double maxAbos = 0;
+
+    for (Spiel og : otherGames) {
+      int currentAbos = publisher.getCurrentAbos(og);
+      if (currentAbos > maxAbos) {
+        maxAbos = currentAbos;
+      }
+    }
+
+    for (Spiel og : otherGames) {
+      if (og == this) continue;
+      double bew = og.getBewertung() / 10.0;
+      int abos = publisher.getCurrentAbos(og);
+      if (bew > 0 && abos > 0 && maxAbos > 0) {
+        double weight = bew * (abos / maxAbos);
+        optimalPrice += og.getPrice() * weight;
+        weightSum += weight;
+      }
+    }
+
+    return weightSum == 0 ? 0 : optimalPrice / weightSum;
   }
 
   public boolean checkAboOverlap(Abo newAbo) {

@@ -168,6 +168,17 @@ public class Publisher {
     return bundles;
   }
 
+  protected int getCurrentAbos(Spiel spiel){
+    int count = 0;
+    for (Purchase p : purchases){
+      Abo s = p.getSubscription();
+      if (s == null) continue;
+      if (s.getGame() != spiel) continue;
+      count++;
+    }
+    return count;
+  }
+
   @Override
   public String toString() {
     return "Publisher [fname=" + fname + ", motto=" + motto + "]";
