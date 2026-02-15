@@ -82,8 +82,19 @@ public class Spiel {
     return weightSum == 0 ? 0 : optimalPrice / weightSum;
   }
 
+  /**
+   * Checks if the passed Abo has the same duration or type with an other current Abo
+   * 
+   * @param newAbo the new abo to be compared
+   * @return true if it overlaps, false if it is fine
+   */
   public boolean checkAboOverlap(Abo newAbo) {
-    return false; //TODO: Implement checkAboOverlap
+    for (Abo abo : abos){
+      if (abo.getDuration() == newAbo.getDuration() || abo.getType() == newAbo.getType()){
+        return true;
+      }
+    }
+    return false;
   }
 
   public void syncSpielPreisBundle() {
