@@ -1,4 +1,4 @@
-package src.Publisher;
+package Publisher;
 
 import java.util.ArrayList;
 import java.util.Date;

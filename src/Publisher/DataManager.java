@@ -1,7 +1,5 @@
-package src;
-
+package Publisher;
 import java.util.ArrayList;
-import src.Publisher.*;
 
 /**
  * DataManager class for managing Publisher data.
@@ -28,23 +26,11 @@ public class DataManager {
     this.publisherSales = new ArrayList<>();
   }
 
-  /**
-   * Adds a publisher to the data manager.
-   *
-   * @param publisher the publisher to add
-   * @return true if the publisher was added successfully, false otherwise
-   */
   public boolean addPublisher(Publisher publisher) {
     if (publisher == null) return false;
     return publishers.add(publisher);
   }
 
-  /**
-   * Removes a publisher from the data manager.
-   *
-   * @param publisher the publisher to remove
-   * @return true if the publisher was removed successfully, false otherwise
-   */
   public boolean removePublisher(Publisher publisher) {
     return publishers.remove(publisher);
   }
@@ -64,32 +50,15 @@ public class DataManager {
     return null;
   }
 
-  /**
-   * Gets a copy of all publishers.
-   *
-   * @return copy of the list of all publishers
-   */
   public ArrayList<Publisher> getAllPublishers() {
     return new ArrayList<>(publishers);
   }
 
-  /**
-   * Adds a game to the data manager.
-   *
-   * @param spiel the game to add
-   * @return true if the game was added successfully, false otherwise
-   */
   public boolean addSpiel(Spiel spiel) {
     if (spiel == null) return false;
     return spiele.add(spiel);
   }
 
-  /**
-   * Removes a game from the data manager.
-   *
-   * @param spiel the game to remove
-   * @return true if the game was removed successfully, false otherwise
-   */
   public boolean removeSpiel(Spiel spiel) {
     return spiele.remove(spiel);
   }
@@ -109,12 +78,6 @@ public class DataManager {
     return null;
   }
 
-  /**
-   * Finds games by publisher.
-   *
-   * @param publisher the publisher
-   * @return list of games from the specified publisher
-   */
   public ArrayList<Spiel> findSpiel(Publisher publisher) {
     ArrayList<Spiel> result = new ArrayList<>();
     for (Spiel spiel : spiele) {
@@ -125,32 +88,15 @@ public class DataManager {
     return result;
   }
 
-  /**
-   * Gets a copy of all games.
-   *
-   * @return copy of the list of all games
-   */
   public ArrayList<Spiel> getAllSpiele() {
     return new ArrayList<>(spiele);
   }
 
-  /**
-   * Adds a subscription to the data manager.
-   *
-   * @param abo the subscription to add
-   * @return true if the subscription was added successfully, false otherwise
-   */
   public boolean addAbo(Abo abo) {
     if (abo == null) return false;
     return abos.add(abo);
   }
 
-  /**
-   * Removes a subscription from the data manager.
-   *
-   * @param abo the subscription to remove
-   * @return true if the subscription was removed successfully, false otherwise
-   */
   public boolean removeAbo(Abo abo) {
     return abos.remove(abo);
   }
@@ -187,32 +133,15 @@ public class DataManager {
     return result;
   }
 
-  /**
-   * Gets a copy of all subscriptions.
-   *
-   * @return copy of the list of all subscriptions
-   */
   public ArrayList<Abo> getAllAbos() {
     return new ArrayList<>(abos);
   }
 
-  /**
-   * Adds a bundle to the data manager.
-   *
-   * @param bundle the bundle to add
-   * @return true if the bundle was added successfully, false otherwise
-   */
   public boolean addBundle(Bundle bundle) {
     if (bundle == null) return false;
     return bundles.add(bundle);
   }
 
-  /**
-   * Removes a bundle from the data manager.
-   *
-   * @param bundle the bundle to remove
-   * @return true if the bundle was removed successfully, false otherwise
-   */
   public boolean removeBundle(Bundle bundle) {
     return bundles.remove(bundle);
   }
@@ -232,32 +161,15 @@ public class DataManager {
     return null;
   }
 
-  /**
-   * Gets a copy of all bundles.
-   *
-   * @return copy of the list of all bundles
-   */
   public ArrayList<Bundle> getAllBundles() {
     return new ArrayList<>(bundles);
   }
 
-  /**
-   * Adds a publisher sale to the data manager.
-   *
-   * @param sale the publisher sale to add
-   * @return true if the sale was added successfully, false otherwise
-   */
   public boolean addPublisherSale(PublisherSale sale) {
     if (sale == null) return false;
     return publisherSales.add(sale);
   }
 
-  /**
-   * Removes a publisher sale from the data manager.
-   *
-   * @param sale the publisher sale to remove
-   * @return true if the sale was removed successfully, false otherwise
-   */
   public boolean removePublisherSale(PublisherSale sale) {
     return publisherSales.remove(sale);
   }
@@ -277,11 +189,6 @@ public class DataManager {
     return null;
   }
 
-  /**
-   * Gets a copy of all publisher sales.
-   *
-   * @return copy of the list of all publisher sales
-   */
   public ArrayList<PublisherSale> getAllPublisherSales() {
     return new ArrayList<>(publisherSales);
   }

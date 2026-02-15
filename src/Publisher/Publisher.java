@@ -1,4 +1,4 @@
-package src.Publisher;
+package Publisher;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -166,5 +166,10 @@ public class Publisher {
 
   public ArrayList<Bundle> getBundles() {
     return bundles;
+  }
+
+  @Override
+  public String toString() {
+    return "Publisher [fname=" + fname + ", motto=" + motto + "]";
   }
 }
