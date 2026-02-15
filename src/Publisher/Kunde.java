@@ -30,6 +30,18 @@ public class Kunde {
     return user;
   }
 
+  public Purchase subscribe(Abo abo) {
+    return null; //TODO: Implement subscribe(abo)
+  } //cancelSubscription?
+
+  public Purchase purchase(Bundle bundle) {
+    return null; //TODO: Implement purchase(Bundle)
+  }
+
+  public Purchase purchase(Spiel spiel) {
+    return null; //TODO: Implement purchase(Spiel)
+  }
+
   public ArrayList<Purchase> getPurchases() {
     return purchases;
   }
