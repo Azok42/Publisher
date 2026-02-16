@@ -12,6 +12,12 @@ public class Purchase {
   private Abo subscription;
   private Date date;
 
+  /**
+   * Constructor for a single game purchased now
+   * @param kunde
+   * @param publisher
+   * @param purchasedGame
+   */
   public Purchase(Kunde kunde, Publisher publisher, Spiel purchasedGame) {
     this.kunde = kunde;
     this.publisher = publisher;
@@ -20,6 +26,13 @@ public class Purchase {
     this.date = new Date();
   }
 
+  /**
+   * Constructor for a single game purchased at a date
+   * @param kunde
+   * @param publisher
+   * @param purchasedGame
+   * @param date when the game was/will be purchased
+   */
   public Purchase(
     Kunde kunde,
     Publisher publisher,
@@ -33,6 +46,12 @@ public class Purchase {
     this.date = date;
   }
 
+  /**
+   * Constructor for a Bundle purchased now
+   * @param kunde
+   * @param publisher
+   * @param purchasedBundle
+   */
   public Purchase(Kunde kunde, Publisher publisher, Bundle purchasedBundle) {
     this.kunde = kunde;
     this.publisher = publisher;
@@ -41,6 +60,13 @@ public class Purchase {
     this.date = new Date();
   }
 
+  /**
+   * Constructor for a bundle purchased at a date
+   * @param kunde
+   * @param publisher
+   * @param purchasedBundle
+   * @param date when the bundle was/will be purchased
+   */
   public Purchase(
     Kunde kunde,
     Publisher publisher,
@@ -54,6 +80,12 @@ public class Purchase {
     this.date = date;
   }
 
+  /**
+   * Constructor for a abo purchased now
+   * @param kunde
+   * @param publisher
+   * @param subscription
+   */
   public Purchase(Kunde kunde, Publisher publisher, Abo subscription) {
     this.kunde = kunde;
     this.publisher = publisher;
@@ -62,6 +94,13 @@ public class Purchase {
     this.date = new Date();
   }
 
+  /**
+   * Constructor for a single game purchased at a date
+   * @param kunde
+   * @param publisher
+   * @param subscription
+   * @param date when the abo was purchased
+   */
   public Purchase(
     Kunde kunde,
     Publisher publisher,
