@@ -23,8 +23,10 @@ public class Bundle extends Angebot {
     sales = 0;
   }
 
-  public double adjustBundlePrice(double amount) {
-    return 0; //TODO: Implement adjustBundlePrice
+  public double adjustBundlePrice(double targetMargin) {
+    this.price *= targetMargin / 100;
+
+    return this.price;
   }
 
   public double predictBundleSuccess() {
