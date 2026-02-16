@@ -16,6 +16,11 @@ public abstract class Angebot {
     this.end = end;
   }
 
+  /**
+   * Deletes all expired Angebote from the DataManager
+   * 
+   * @return the amount of cleaned Angebote
+   */
   public static int cleanupExpiredAngebote() {
     DataManager dataManager = DataManager.getInstance();
     int counter = 0;
