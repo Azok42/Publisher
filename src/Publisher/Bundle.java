@@ -29,8 +29,28 @@ public class Bundle extends Angebot {
     return this.price;
   }
 
+  /**
+   * Berechnet die Erfolgswahrscheinlichkeit (0.0 - 1.0)
+   */
   public double predictBundleSuccess() {
-    return 0; //TODO: Implement predictBundleSuccess
+    double sumRatings = 0.0;
+    double sumIndividualPrices = 0.0;
+    int count = 0;
+
+    for (Spiel game : spiele) {
+      count++;
+      sumRatings += game.getBewertung();
+      sumIndividualPrices += game.getPrice();
+    }
+
+    double avgRating = (sumRatings / count) / 10;
+
+    double discount;
+    discount = (sumIndividualPrices - this.price) / sumIndividualPrices;
+
+    double score = 0.5 * avgRating + 0.5 * discount;
+
+    return Math.max(0, Math.min(score, 1));
   }
 
   public double getPrice() {
