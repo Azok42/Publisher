@@ -24,11 +24,10 @@ public class Bundle extends Angebot {
   }
 
   /**
-   * Ändert den Preis um einen Prozentwert
+   * Calculates a new price for this bundle
    * 
-   * @param targetMargin Der Prozentwert
-   * 
-   * @return Der veränderte Preis
+   * @param targetMargin the changing factor in %
+   * @return the new adjusted price
    */
   public double adjustBundlePrice(double targetMargin) {
     this.price *= targetMargin / 100;
@@ -37,7 +36,7 @@ public class Bundle extends Angebot {
   }
 
   /**
-   * @return Erfolgswahrscheinlichkeit des Bundles (0.0 - 1.0)
+   * @return the predicted successrate (1.0 - 10.0)
    */
   public double predictBundleSuccess() {
     double sumRatings = 0.0;
