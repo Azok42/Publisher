@@ -95,11 +95,11 @@ public class Purchase {
   }
 
   /**
-   * Constructor for a single game purchased at a date
+   * Constructor for a abo purchased at a date
    * @param kunde
    * @param publisher
    * @param subscription
-   * @param date when the abo was purchased
+   * @param date when the abo was/will be purchased
    */
   public Purchase(
     Kunde kunde,
