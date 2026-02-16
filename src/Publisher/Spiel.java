@@ -7,6 +7,7 @@ public class Spiel {
   private String name;
   private double price;
   private int bewertung; // 1 - 10
+  private ArrayList<String> genres;
   private ArrayList<Integer> bewertungen;
   private Publisher publisher;
   private ArrayList<Abo> abos;
@@ -15,10 +16,12 @@ public class Spiel {
   public Spiel(
     String name,
     double price,
+    ArrayList<String> genres,
     ArrayList<Integer> bewertungen,
     Publisher publisher
   ) {
     this.name = name;
+    this.genres = genres;
     this.price = price;
     this.bewertungen = bewertungen;
     for (int b : this.bewertungen) if (b > 0 && b < 11) this.bewertung += b;
@@ -103,6 +106,10 @@ public class Spiel {
 
   public double getPrice() {
     return price;
+  }
+
+  public ArrayList<String> getGenres() {
+    return genres;
   }
 
   public String getName() {
