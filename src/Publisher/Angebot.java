@@ -17,7 +17,18 @@ public abstract class Angebot {
   }
 
   public static int cleanupExpiredAngebote() {
-    return 0; //TODO: Implement cleanupExpiredAngebote
+    DataManager dataManager = DataManager.getInstance();
+    int counter = 0;
+    
+    for (Bundle bundle : dataManager.getAllBundles()) {
+      counter += dataManager.removeBundle(bundle) ? 1 : 0;
+    }
+
+    for (PublisherSale sale : dataManager.getAllPublisherSales()) {
+      counter += dataManager.removePublisherSale(sale) ? 1 : 0;
+    }
+    
+    return counter;
   }
 
   public Date getStart() {
