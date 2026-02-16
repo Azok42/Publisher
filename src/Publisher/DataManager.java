@@ -15,10 +15,22 @@ public class DataManager {
   private ArrayList<Bundle> bundles;
   private ArrayList<PublisherSale> publisherSales;
 
+  private static DataManager instance;
+
+  /*
+   * Gets the Singleton Instance
+   */
+  public static DataManager getInstance() {
+    if (instance == null)
+      instance = new DataManager();
+
+    return instance;
+  }
+
   /**
    * Creates a new empty DataManager.
    */
-  public DataManager() {
+  private DataManager() {
     this.publishers = new ArrayList<>();
     this.spiele = new ArrayList<>();
     this.abos = new ArrayList<>();
