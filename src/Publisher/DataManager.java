@@ -17,7 +17,7 @@ public class DataManager {
 
   private static DataManager instance;
 
-  /*
+  /**
    * Gets the Singleton Instance
    */
   public static DataManager getInstance() {
