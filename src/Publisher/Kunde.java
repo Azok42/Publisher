@@ -139,15 +139,45 @@ public class Kunde {
   }
 
   public Purchase subscribe(Abo abo) {
-    return null; //TODO: Implement subscribe(abo)
-  } //cancelSubscription?
+    Purchase purchase = new Purchase(this, abo.getGame().getPublisher(), abo);
+    purchases.add(purchase);
+
+    return purchase;
+  }
+
+  public void cancelSubscription(Purchase subscription) throws Exception {
+    if (subscription.getSubscription() == null || !subscription.getKunde().equals(this))
+      throw new Exception("Unowned subscription cannot be canceled");
+    else
+      purchases.remove(subscription);
+  }
 
   public Purchase purchase(Bundle bundle) {
-    return null; //TODO: Implement purchase(Bundle)
+    Purchase purchase = new Purchase(this, null, bundle);
+    purchases.add(purchase);
+
+    return purchase;
   }
 
   public Purchase purchase(Spiel spiel) {
-    return null; //TODO: Implement purchase(Spiel)
+    Purchase purchase = new Purchase(this, spiel.getPublisher(), spiel);
+    purchases.add(purchase);
+
+    return purchase;
+  }
+
+  public Purchase giftGame(Spiel spiel, Kunde kunde) {
+    Purchase purchase = new Purchase(kunde, spiel.getPublisher(), spiel);
+    purchases.add(purchase);
+
+    return purchase;
+  }
+
+  public Purchase giftGame(Spiel spiel, Kunde kunde, Date date) {
+    Purchase purchase = new Purchase(kunde, spiel.getPublisher(), spiel, date);
+    purchases.add(purchase);
+
+    return purchase;
   }
 
   public ArrayList<Purchase> getPurchases() {
