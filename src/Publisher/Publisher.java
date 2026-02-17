@@ -121,6 +121,7 @@ public class Publisher {
    * @return Whether the current amount of publisher sales is below the limit of {@value #MAX_PUBLISHER_SALES}
    */
   public Boolean validatePublisherSaleLimit() {
+    Angebot.cleanupExpiredAngebote();
     return (publisherSales.size() >= MAX_PUBLISHER_SALES) ? true : false;
   }
 
