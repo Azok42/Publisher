@@ -1,5 +1,7 @@
 package Publisher;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -125,8 +127,34 @@ public class Publisher {
     return publisherSales.size() >= MAX_PUBLISHER_SALES;
   }
 
-  public boolean generatePublisherReport(String report) {
-    return false; //TODO: Implement generatePublisherReport
+  public boolean generatePublisherReport(String reportPath) {
+    try {
+      FileWriter writer = new FileWriter(reportPath);
+      writer.write("# Publisher " + this.fname + " - " + this.motto + "\n");
+
+      writer.write("## Games\n");
+      for (Spiel game : this.spiele) {
+        writer.write("- " + game.getName() + "\n");
+      }
+
+      writer.write("\n## Abos\n");
+      for (Spiel game : this.spiele) {
+        for (Abo abo : game.getAbos()) {
+          writer.write("- **" + game.getName() + "**: " + abo.getType() + "\n");
+        }
+      }
+
+      writer.write("\n## Revenue\n");
+      writer.write("**Revenue:** " + this.calculatePublisherRevenue(new Date(), new Date()) + "\n");
+      writer.write("**Average Discount:** " + this.calculateAverageDiscount() + "\n");
+
+      writer.close();
+    } catch (IOException e) {
+      System.out.println("An error occurred while writing to file.");
+      return false;
+    }
+
+    return true;
   }
 
   public String getFname() {
