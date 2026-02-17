@@ -6,6 +6,7 @@ public class Spiel {
 
   private String name;
   private double price;
+  private double previousPrice;
   private double bewertung; // 1 - 10
   private ArrayList<String> genres;
   private ArrayList<Integer> bewertungen;
@@ -23,6 +24,7 @@ public class Spiel {
     this.name = name;
     this.genres = genres;
     this.price = price;
+    this.previousPrice = price;
     this.bewertungen = bewertungen;
     this.bewertung = 0;
     for (int b : this.bewertungen) {
@@ -135,12 +137,40 @@ public class Spiel {
     return false;
   }
 
+  /**
+   * Syncs all bundles in which this game is contained
+   */
   public void syncSpielPreisBundle() {
-    return; //TODO: Implement syncSpielPreisBundle
+    for (Bundle bundle : this.bundles) {
+      double oldSum = 0.0;
+
+      for (Spiel game : bundle.getSpiele())
+        oldSum += (game == this) ? this.previousPrice : game.getPrice();
+      
+      if (oldSum <= 0) continue;
+
+      double oldDiscount = (oldSum - bundle.getPrice()) / oldSum;
+      if (oldDiscount < 0) oldDiscount = 0;
+      if (oldDiscount > 1) oldDiscount = 1;
+
+      double newSum = 0.0;
+      for (Spiel game : bundle.getSpiele())
+        newSum += game.getPrice();
+
+      double newPrice = newSum * (1 - oldDiscount);
+      if (newPrice < 0) newPrice = 0;
+      bundle.setPrice(newPrice);
+    }
   }
 
   public double getPrice() {
     return price;
+  }
+
+  public void setPrice(double price) {
+    this.previousPrice = this.price;
+    this.price = price;
+    syncSpielPreisBundle();
   }
 
   public ArrayList<String> getGenres() {
@@ -161,6 +191,10 @@ public class Spiel {
 
   public ArrayList<Bundle> getBundles() {
     return bundles;
+  }
+
+  public void addBundle(Bundle bundle) {
+    bundles.add(bundle);
   }
 
   public Publisher getPublisher() {
