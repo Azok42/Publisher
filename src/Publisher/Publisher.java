@@ -27,10 +27,10 @@ public class Publisher {
   public Publisher(String fname, String motto) {
     this.fname = fname;
     this.motto = motto;
-    publisherSales = new ArrayList<PublisherSale>();
-    spiele = new ArrayList<Spiel>();
-    purchases = new ArrayList<Purchase>();
-    bundles = new ArrayList<Bundle>();
+    publisherSales = new ArrayList<>();
+    spiele = new ArrayList<>();
+    purchases = new ArrayList<>();
+    bundles = new ArrayList<>();
   }
 
   /**
@@ -73,7 +73,7 @@ public class Publisher {
    * @return the top {@code count} games sorted after their rating
    */
   public ArrayList<Spiel> getTopSpieleByBewertung(int count) {
-    ArrayList<Spiel> topSpiele = new ArrayList<Spiel>();
+    ArrayList<Spiel> topSpiele = new ArrayList<>();
     for (Spiel spiel : spiele) {
       topSpiele.add(spiel);
     }
@@ -122,7 +122,7 @@ public class Publisher {
    */
   public Boolean validatePublisherSaleLimit() {
     Angebot.cleanupExpiredAngebote();
-    return (publisherSales.size() >= MAX_PUBLISHER_SALES) ? true : false;
+    return publisherSales.size() >= MAX_PUBLISHER_SALES;
   }
 
   public boolean generatePublisherReport(String report) {
