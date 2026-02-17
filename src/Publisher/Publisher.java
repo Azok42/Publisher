@@ -56,7 +56,7 @@ public class Publisher {
         } else if (purchase.getSubscription() != null) {
           price += purchase.getSubscription().getPriceForDuration();
         }
-        // discounts of publisherSales will be on top of each other, not added
+        // discounts of publisherSales will multiplied, not added
         for (PublisherSale ps : publisherSales) {
           if (ps.getStart().before(end) && ps.getEnd().after(start)) {
             price *= (100 - ps.getRabatt()) / 100;
@@ -150,8 +150,14 @@ public class Publisher {
       }
 
       writer.write("\n## Revenue\n");
-      writer.write("**Revenue:** " + this.calculatePublisherRevenue(new Date(), new Date()) + "\n");
-      writer.write("**Average Discount:** " + this.calculateAverageDiscount() + "\n");
+      writer.write(
+        "**Revenue:** " +
+          this.calculatePublisherRevenue(new Date(), new Date()) +
+          "\n"
+      );
+      writer.write(
+        "**Average Discount:** " + this.calculateAverageDiscount() + "\n"
+      );
 
       writer.close();
     } catch (IOException e) {
@@ -160,6 +166,21 @@ public class Publisher {
     }
 
     return true;
+  }
+
+  /** Calculates the publishers revenue with a new publisher sale rabatt
+   *
+   * @param rabatt the rabatt to impact the revenue
+   * @return the estimated revenue
+   */
+  public double simulateRabattImpact(double rabatt) {
+    double boundedRabatt = Math.max(0, Math.min(100, rabatt));
+    double revenue = calculatePublisherRevenue(
+      new Date(0),
+      new Date(Long.MAX_VALUE)
+    );
+
+    return (revenue * (100 - boundedRabatt)) / 100.0;
   }
 
   public String getFname() {
@@ -202,9 +223,9 @@ public class Publisher {
     return bundles;
   }
 
-  protected int getCurrentAbos(Spiel spiel){
+  protected int getCurrentAbos(Spiel spiel) {
     int count = 0;
-    for (Purchase p : purchases){
+    for (Purchase p : purchases) {
       Abo s = p.getSubscription();
       if (s == null) continue;
       if (s.getGame() != spiel) continue;

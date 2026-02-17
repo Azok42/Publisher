@@ -19,10 +19,6 @@ public class PublisherSale extends Angebot {
     this.rabatt = rabatt;
   }
 
-  public double simulateRabattImpact(double price) {
-    return 0; //TODO: Implement simulateRabattImpact
-  }
-
   public double getRabatt() {
     return rabatt;
   }
