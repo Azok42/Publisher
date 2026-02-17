@@ -2,12 +2,6 @@ package Publisher;
 
 import java.util.ArrayList;
 
-/**
- * DataManager class for managing Publisher data.
- *
- * @author Jame Bayerl
- * @author Anton Hackner
- */
 public class DataManager {
 
   private ArrayList<Publisher> publishers;

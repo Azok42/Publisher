@@ -5,12 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Represents a game Publisher.<br>
- *
- * It manages games, purchases from customers and publisher sales.
- * It also provides methods for analysis, game ranking, validation and reports.
- */
 public class Publisher {
 
   /**
