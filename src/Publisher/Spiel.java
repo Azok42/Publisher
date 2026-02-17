@@ -120,6 +120,10 @@ public class Spiel {
     return abos;
   }
 
+  public void addAbo(Abo abo) {
+    abos.add(abo);
+  }
+
   public ArrayList<Bundle> getBundles() {
     return bundles;
   }
