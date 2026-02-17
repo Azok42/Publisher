@@ -27,8 +27,8 @@ public class Spiel {
     for (int b : this.bewertungen) if (b > 0 && b < 11) this.bewertung += b;
     this.bewertung /= this.bewertungen.size();
     this.publisher = publisher;
-    abos = new ArrayList<Abo>();
-    bundles = new ArrayList<Bundle>();
+    abos = new ArrayList<>();
+    bundles = new ArrayList<>();
   }
 
   /**
@@ -74,9 +74,9 @@ public class Spiel {
     for (Spiel og : otherGames) {
       if (og == this) continue;
       double bew = og.getBewertung() / 10.0;
-      int abos = publisher.getCurrentAbos(og);
-      if (bew > 0 && abos > 0 && maxAbos > 0) {
-        double weight = bew * (abos / maxAbos);
+      int abosCount = publisher.getCurrentAbos(og);
+      if (bew > 0 && abosCount > 0 && maxAbos > 0) {
+        double weight = bew * (abosCount / maxAbos);
         optimalPrice += og.getPrice() * weight;
         weightSum += weight;
       }
@@ -93,7 +93,7 @@ public class Spiel {
    */
   public boolean checkAboOverlap(Abo newAbo) {
     for (Abo abo : abos){
-      if (abo.getDuration() == newAbo.getDuration() || abo.getType() == newAbo.getType()){
+      if (abo.getDuration() == newAbo.getDuration() || abo.getType().equals(newAbo.getType())){
         return true;
       }
     }
