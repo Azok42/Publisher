@@ -6,7 +6,7 @@ public class Spiel {
 
   private String name;
   private double price;
-  private double bewertung; // 1 - 10, changed to double for accurate averages
+  private double bewertung; // 1 - 10
   private ArrayList<String> genres;
   private ArrayList<Integer> bewertungen;
   private Publisher publisher;
