@@ -18,36 +18,35 @@ public class Kunde {
   /**
    * Calculates a score for all games based on owned games
    * @return list of all games with score >= 1
-  */
+   */
   public ArrayList<Spiel> recommendSpieleForKunde() {
     ArrayList<String> ownedGenres = new ArrayList<>();
     ArrayList<Publisher> ownedPublisher = new ArrayList<>();
 
     for (Purchase purchase : purchases) {
-      if (purchase.getSubscription() != null)
-        continue;
+      if (purchase.getSubscription() != null) continue;
 
       if (purchase.getPurchasedGame() != null) {
         for (String genre : purchase.getPurchasedGame().getGenres()) {
-          if (!ownedGenres.contains(genre))
-            ownedGenres.add(genre);
+          if (!ownedGenres.contains(genre)) ownedGenres.add(genre);
         }
 
-        if (!ownedPublisher.contains(purchase.getPurchasedGame().getPublisher()))
-          ownedPublisher.add(purchase.getPurchasedGame().getPublisher());
+        if (
+          !ownedPublisher.contains(purchase.getPurchasedGame().getPublisher())
+        ) ownedPublisher.add(purchase.getPurchasedGame().getPublisher());
       }
 
-
-      if (purchase.getPurchasedBundle() != null)
-        for (Spiel game : purchase.getPurchasedBundle().getSpiele()) {
-          for (String genre : game.getGenres()) {
-            if (!ownedGenres.contains(genre))
-              ownedGenres.add(genre);
-          }
-
-          if (!ownedPublisher.contains(game.getPublisher()))
-            ownedPublisher.add(game.getPublisher());
+      if (purchase.getPurchasedBundle() != null) for (Spiel game : purchase
+        .getPurchasedBundle()
+        .getSpiele()) {
+        for (String genre : game.getGenres()) {
+          if (!ownedGenres.contains(genre)) ownedGenres.add(genre);
         }
+
+        if (!ownedPublisher.contains(game.getPublisher())) ownedPublisher.add(
+          game.getPublisher()
+        );
+      }
     }
 
     ArrayList<Spiel> recommendedSpiele = new ArrayList<>();
@@ -56,15 +55,13 @@ public class Kunde {
     for (Spiel game : dataManager.getAllSpiele()) {
       double score = 0;
       for (String genre : game.getGenres()) {
-        if (ownedGenres.contains(genre))
-          score++;
+        if (ownedGenres.contains(genre)) score++;
       }
       score /= game.getGenres().size();
       score += ownedPublisher.contains(game.getPublisher()) ? 1 : 0;
       score += game.getBewertung() / 10;
 
-      if (score >= 1)
-        recommendedSpiele.add(game);
+      if (score >= 1) recommendedSpiele.add(game);
     }
 
     return recommendedSpiele;
@@ -76,44 +73,48 @@ public class Kunde {
    * @return PublisherSale with Spiele based on owned games
    */
   public PublisherSale generatePersonalizedSale(Publisher publisher) {
-    PublisherSale sale = new PublisherSale("Personal Sale", "", new Date(), new Date(), 33);
+    PublisherSale sale = new PublisherSale(
+      "Personal Sale",
+      "",
+      new Date(),
+      new Date(),
+      33
+    );
     ArrayList<String> ownedGenres = new ArrayList<>();
     ArrayList<Spiel> ownedGames = new ArrayList<>();
 
     for (Purchase purchase : purchases) {
-        if (purchase.getSubscription() != null)
-        continue;
+      if (purchase.getSubscription() != null) continue;
 
       if (purchase.getPurchasedGame() != null) {
-        if (purchase.getPurchasedGame().getPublisher().equals(publisher))
-          ownedGames.add(purchase.getPurchasedGame());
+        if (
+          purchase.getPurchasedGame().getPublisher().equals(publisher)
+        ) ownedGames.add(purchase.getPurchasedGame());
         for (String genre : purchase.getPurchasedGame().getGenres()) {
-          if (!ownedGenres.contains(genre))
-            ownedGenres.add(genre);
+          if (!ownedGenres.contains(genre)) ownedGenres.add(genre);
         }
       }
 
-      if (purchase.getPurchasedBundle() != null)
-        for (Spiel game : purchase.getPurchasedBundle().getSpiele()) {
-          if (game.getPublisher().equals(publisher))
-            ownedGames.add(game);
-          for (String genre : game.getGenres()) {
-            if (!ownedGenres.contains(genre))
-              ownedGenres.add(genre);
-          }
+      if (purchase.getPurchasedBundle() != null) for (Spiel game : purchase
+        .getPurchasedBundle()
+        .getSpiele()) {
+        if (game.getPublisher().equals(publisher)) ownedGames.add(game);
+        for (String genre : game.getGenres()) {
+          if (!ownedGenres.contains(genre)) ownedGenres.add(genre);
         }
+      }
     }
 
     for (Spiel game : publisher.getSpiele()) {
       double genreSimilarity = 0;
       for (String genre : game.getGenres()) {
-        if (ownedGenres.contains(genre))
-          genreSimilarity++;
+        if (ownedGenres.contains(genre)) genreSimilarity++;
       }
       genreSimilarity /= game.getGenres().size();
 
-      if (genreSimilarity >= 0.5 && !ownedGames.contains(game))
-        sale.addGame(game);
+      if (genreSimilarity >= 0.5 && !ownedGames.contains(game)) sale.addGame(
+        game
+      );
     }
 
     publisher.addPublisherSale(sale);
@@ -137,10 +138,11 @@ public class Kunde {
   }
 
   public void cancelSubscription(Purchase subscription) throws Exception {
-    if (subscription.getSubscription() == null || !subscription.getKunde().equals(this))
-      throw new Exception("Unowned subscription cannot be canceled");
-    else
-      purchases.remove(subscription);
+    if (
+      subscription.getSubscription() == null ||
+      !subscription.getKunde().equals(this)
+    ) throw new Exception("Unowned subscription cannot be canceled");
+    else purchases.remove(subscription);
   }
 
   public Purchase purchase(Bundle bundle) {
@@ -177,5 +179,18 @@ public class Kunde {
 
   protected boolean addPurchase(Purchase purchase) {
     return purchases.add(purchase);
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "Kunde [email=" +
+      email +
+      ", user=" +
+      user +
+      ", purchases=" +
+      purchases +
+      "]"
+    );
   }
 }

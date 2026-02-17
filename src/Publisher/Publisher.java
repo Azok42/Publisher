@@ -10,7 +10,6 @@ import java.util.Date;
  *
  * It manages games, purchases from customers and publisher sales.
  * It also provides methods for analysis, game ranking, validation and reports.
- * @author Jame Bayerl
  */
 public class Publisher {
 
@@ -236,6 +235,20 @@ public class Publisher {
 
   @Override
   public String toString() {
-    return "Publisher [fname=" + fname + ", motto=" + motto + "]";
+    return (
+      "Publisher [fname=" +
+      fname +
+      ", motto=" +
+      motto +
+      ", publisherSales=" +
+      publisherSales +
+      ", spiele=" +
+      spiele +
+      ", purchases=" +
+      purchases +
+      ", bundles=" +
+      bundles +
+      "]"
+    );
   }
 }

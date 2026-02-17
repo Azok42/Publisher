@@ -30,4 +30,9 @@ public class PublisherSale extends Angebot {
   public boolean addGame(Spiel game) {
     return games.add(game);
   }
+
+  @Override
+  public String toString() {
+    return "PublisherSale [rabatt=" + rabatt + ", games=" + games + "]";
+  }
 }

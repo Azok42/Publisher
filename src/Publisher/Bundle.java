@@ -25,7 +25,7 @@ public class Bundle extends Angebot {
 
   /**
    * Calculates a new price for this bundle
-   * 
+   *
    * @param targetMargin the changing factor in %
    * @return the new adjusted price
    */
@@ -69,5 +69,12 @@ public class Bundle extends Angebot {
 
   public int getSales() {
     return sales;
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "Bundle [price=" + price + ", spiele=" + spiele + ", sales=" + sales + "]"
+    );
   }
 }

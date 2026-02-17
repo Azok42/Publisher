@@ -87,13 +87,16 @@ public class Spiel {
 
   /**
    * Checks if the passed Abo has the same duration or type with an other current Abo
-   * 
+   *
    * @param newAbo the new abo to be compared
    * @return true if it overlaps, false if it is fine
    */
   public boolean checkAboOverlap(Abo newAbo) {
-    for (Abo abo : abos){
-      if (abo.getDuration() == newAbo.getDuration() || abo.getType().equals(newAbo.getType())){
+    for (Abo abo : abos) {
+      if (
+        abo.getDuration() == newAbo.getDuration() ||
+        abo.getType().equals(newAbo.getType())
+      ) {
         return true;
       }
     }
@@ -130,5 +133,28 @@ public class Spiel {
 
   public Publisher getPublisher() {
     return publisher;
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "Spiel [name=" +
+      name +
+      ", price=" +
+      price +
+      ", bewertung=" +
+      bewertung +
+      ", genres=" +
+      genres +
+      ", bewertungen=" +
+      bewertungen +
+      ", publisher=" +
+      publisher +
+      ", abos=" +
+      abos +
+      ", bundles=" +
+      bundles +
+      "]"
+    );
   }
 }

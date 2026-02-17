@@ -230,4 +230,11 @@ public class DataManager {
       publisherSales.size()
     );
   }
+
+  @Override
+  public String toString() {
+    return "DataManager [publishers=" + publishers + ", spiele=" + spiele + ", abos=" + abos + ", bundles=" + bundles
+        + ", publisherSales=" + publisherSales + "]";
+  }
+  
 }

@@ -18,13 +18,13 @@ public abstract class Angebot {
 
   /**
    * Deletes all expired Angebote from the DataManager
-   * 
+   *
    * @return the amount of cleaned Angebote
    */
   public static int cleanupExpiredAngebote() {
     DataManager dataManager = DataManager.getInstance();
     int counter = 0;
-    
+
     for (Bundle bundle : dataManager.getAllBundles()) {
       counter += dataManager.removeBundle(bundle) ? 1 : 0;
     }
@@ -32,7 +32,7 @@ public abstract class Angebot {
     for (PublisherSale sale : dataManager.getAllPublisherSales()) {
       counter += dataManager.removePublisherSale(sale) ? 1 : 0;
     }
-    
+
     return counter;
   }
 
@@ -50,5 +50,20 @@ public abstract class Angebot {
 
   public String getText() {
     return text;
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "Angebot [label=" +
+      label +
+      ", text=" +
+      text +
+      ", start=" +
+      start +
+      ", end=" +
+      end +
+      "]"
+    );
   }
 }
