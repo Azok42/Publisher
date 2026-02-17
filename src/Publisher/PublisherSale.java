@@ -6,7 +6,8 @@ import java.util.Date;
 public class PublisherSale extends Angebot {
 
   private double rabatt; // 0 - 100
-  private ArrayList<Spiel> games; //Purchase makes no sense... .,.
+  private ArrayList<Spiel> games;
+  private Publisher publisher;
 
   public PublisherSale(
     String label,
@@ -17,10 +18,8 @@ public class PublisherSale extends Angebot {
   ) {
     super(label, text, start, end);
     this.rabatt = rabatt;
-  }
-
-  public double simulateRabattImpact(double price) {
-    return 0; //TODO: Implement simulateRabattImpact
+    this.games = new ArrayList<>();
+    this.publisher = null;
   }
 
   public double getRabatt() {
@@ -33,5 +32,18 @@ public class PublisherSale extends Angebot {
 
   public boolean addGame(Spiel game) {
     return games.add(game);
+  }
+
+  public Publisher getPublisher() {
+    return publisher;
+  }
+
+  public void setPublisher(Publisher publisher) {
+    this.publisher = publisher;
+  }
+
+  @Override
+  public String toString() {
+    return "PublisherSale [rabatt=" + rabatt + ", games=" + games + "]";
   }
 }

@@ -1,4 +1,5 @@
 package Publisher;
+
 import java.util.ArrayList;
 
 /**
@@ -21,8 +22,7 @@ public class DataManager {
    * Gets the Singleton Instance
    */
   public static DataManager getInstance() {
-    if (instance == null)
-      instance = new DataManager();
+    if (instance == null) instance = new DataManager();
 
     return instance;
   }
@@ -39,7 +39,7 @@ public class DataManager {
   }
 
   public boolean addPublisher(Publisher publisher) {
-    if (publisher == null) return false;
+    if (publisher == null || publishers.contains(publisher)) return false;
     return publishers.add(publisher);
   }
 
@@ -67,7 +67,7 @@ public class DataManager {
   }
 
   public boolean addSpiel(Spiel spiel) {
-    if (spiel == null) return false;
+    if (spiel == null || spiele.contains(spiel)) return false;
     return spiele.add(spiel);
   }
 
@@ -93,9 +93,9 @@ public class DataManager {
   public ArrayList<Spiel> findSpiel(Publisher publisher) {
     ArrayList<Spiel> result = new ArrayList<>();
     for (Spiel spiel : spiele) {
-      if (spiel.getPublisher().equals(publisher)) {
-        result.add(spiel);
-      }
+      if (
+        spiel.getPublisher() != null && spiel.getPublisher().equals(publisher)
+      ) result.add(spiel);
     }
     return result;
   }
@@ -105,11 +105,17 @@ public class DataManager {
   }
 
   public boolean addAbo(Abo abo) {
-    if (abo == null) return false;
+    if (abo == null || abos.contains(abo)) return false;
+    if (abo.getGame() != null && !abo.getGame().getAbos().contains(abo)) abo
+      .getGame()
+      .addAbo(abo);
+
     return abos.add(abo);
   }
 
   public boolean removeAbo(Abo abo) {
+    if (abo.getGame() != null) abo.getGame().getAbos().remove(abo);
+
     return abos.remove(abo);
   }
 
@@ -150,11 +156,16 @@ public class DataManager {
   }
 
   public boolean addBundle(Bundle bundle) {
-    if (bundle == null) return false;
+    if (bundle == null || bundles.contains(bundle)) return false;
+    for (Spiel spiel : bundle.getSpiele())
+      if (!spiel.getBundles().contains(bundle)) spiel.getBundles().add(bundle);
+
     return bundles.add(bundle);
   }
 
   public boolean removeBundle(Bundle bundle) {
+    for (Spiel spiel : bundle.getSpiele()) spiel.getBundles().remove(bundle);
+
     return bundles.remove(bundle);
   }
 
@@ -173,12 +184,28 @@ public class DataManager {
     return null;
   }
 
+  /**
+   * Finds bundles by publisher.
+   *
+   * @param publisher the publisher
+   * @return list of bundles for the specified publisher
+   */
+  public ArrayList<Bundle> findBundles(Publisher publisher) {
+    ArrayList<Bundle> result = new ArrayList<>();
+    for (Bundle bundle : bundles)
+      if (
+        bundle.getPublisher() != null && bundle.getPublisher().equals(publisher)
+      ) result.add(bundle);
+
+    return result;
+  }
+
   public ArrayList<Bundle> getAllBundles() {
     return new ArrayList<>(bundles);
   }
 
   public boolean addPublisherSale(PublisherSale sale) {
-    if (sale == null) return false;
+    if (sale == null || publisherSales.contains(sale)) return false;
     return publisherSales.add(sale);
   }
 
@@ -199,6 +226,22 @@ public class DataManager {
       }
     }
     return null;
+  }
+
+  /**
+   * Finds publisher sales by publisher.
+   *
+   * @param publisher the publisher
+   * @return list of sales for the specified publisher
+   */
+  public ArrayList<PublisherSale> findPublisherSales(Publisher publisher) {
+    ArrayList<PublisherSale> result = new ArrayList<>();
+    for (PublisherSale sale : publisherSales)
+      if (
+        sale.getPublisher() != null && sale.getPublisher().equals(publisher)
+      ) result.add(sale);
+
+    return result;
   }
 
   public ArrayList<PublisherSale> getAllPublisherSales() {
@@ -228,6 +271,23 @@ public class DataManager {
       abos.size() +
       bundles.size() +
       publisherSales.size()
+    );
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "DataManager [publishers=" +
+      publishers +
+      ", spiele=" +
+      spiele +
+      ", abos=" +
+      abos +
+      ", bundles=" +
+      bundles +
+      ", publisherSales=" +
+      publisherSales +
+      "]"
     );
   }
 }

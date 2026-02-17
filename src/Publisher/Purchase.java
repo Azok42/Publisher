@@ -145,4 +145,25 @@ public class Purchase {
   public void setPublisherSale(PublisherSale publisherSale) {
     this.publisherSale = publisherSale;
   }
+
+  @Override
+  public String toString() {
+    return (
+      "Purchase [kunde=" +
+      kunde +
+      ", publisher=" +
+      publisher +
+      ", purchasedGame=" +
+      purchasedGame +
+      ", purchasedBundle=" +
+      purchasedBundle +
+      ", publisherSale=" +
+      publisherSale +
+      ", subscription=" +
+      subscription +
+      ", date=" +
+      date +
+      "]"
+    );
+  }
 }

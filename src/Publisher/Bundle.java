@@ -8,6 +8,7 @@ public class Bundle extends Angebot {
   private double price;
   private ArrayList<Spiel> spiele;
   private int sales;
+  private Publisher publisher;
 
   public Bundle(
     String label,
@@ -21,11 +22,12 @@ public class Bundle extends Angebot {
     this.price = price;
     this.spiele = spiele;
     sales = 0;
+    this.publisher = null;
   }
 
   /**
    * Calculates a new price for this bundle
-   * 
+   *
    * @param targetMargin the changing factor in %
    * @return the new adjusted price
    */
@@ -73,5 +75,20 @@ public class Bundle extends Angebot {
 
   public int getSales() {
     return sales;
+  }
+
+  public Publisher getPublisher() {
+    return publisher;
+  }
+
+  public void setPublisher(Publisher publisher) {
+    this.publisher = publisher;
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "Bundle [price=" + price + ", spiele=" + spiele + ", sales=" + sales + "]"
+    );
   }
 }

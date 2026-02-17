@@ -10,7 +10,6 @@ import java.util.Date;
  *
  * It manages games, purchases from customers and publisher sales.
  * It also provides methods for analysis, game ranking, validation and reports.
- * @author Jame Bayerl
  */
 public class Publisher {
 
@@ -21,18 +20,33 @@ public class Publisher {
 
   private String fname;
   private String motto;
-  private ArrayList<PublisherSale> publisherSales;
-  private ArrayList<Spiel> spiele;
   private ArrayList<Purchase> purchases;
-  private ArrayList<Bundle> bundles;
 
   public Publisher(String fname, String motto) {
     this.fname = fname;
     this.motto = motto;
-    publisherSales = new ArrayList<>();
-    spiele = new ArrayList<>();
     purchases = new ArrayList<>();
-    bundles = new ArrayList<>();
+  }
+
+  /**
+   * Gets all publisher sales for this publisher from DataManager
+   */
+  public ArrayList<PublisherSale> getPublisherSales() {
+    return DataManager.getInstance().findPublisherSales(this);
+  }
+
+  /**
+   * Gets all games for this publisher from DataManager
+   */
+  public ArrayList<Spiel> getSpiele() {
+    return DataManager.getInstance().findSpiel(this);
+  }
+
+  /**
+   * Gets all bundles for this publisher from DataManager
+   */
+  public ArrayList<Bundle> getBundles() {
+    return DataManager.getInstance().findBundles(this);
   }
 
   /**
@@ -46,6 +60,7 @@ public class Publisher {
   public double calculatePublisherRevenue(Date start, Date end) {
     double revenue = 0;
     if (purchases == null) return 0;
+    ArrayList<PublisherSale> publisherSales = getPublisherSales();
     for (Purchase purchase : purchases) {
       if (purchase.getDate().after(start) && purchase.getDate().before(end)) {
         double price = 0;
@@ -56,7 +71,7 @@ public class Publisher {
         } else if (purchase.getSubscription() != null) {
           price += purchase.getSubscription().getPriceForDuration();
         }
-        // discounts of publisherSales will be on top of each other, not added
+        // discounts of publisherSales will multiplied, not added
         for (PublisherSale ps : publisherSales) {
           if (ps.getStart().before(end) && ps.getEnd().after(start)) {
             price *= (100 - ps.getRabatt()) / 100;
@@ -75,14 +90,13 @@ public class Publisher {
    * @return the top {@code count} games sorted after their rating
    */
   public ArrayList<Spiel> getTopSpieleByBewertung(int count) {
-    ArrayList<Spiel> topSpiele = new ArrayList<>();
-    for (Spiel spiel : spiele) {
-      topSpiele.add(spiel);
-    }
+    ArrayList<Spiel> topSpiele = new ArrayList<>(getSpiele());
     topSpiele.sort((s1, s2) ->
       Double.compare(s2.getBewertung(), s1.getBewertung())
     );
-    return (ArrayList<Spiel>) topSpiele.subList(0, count);
+    return new ArrayList<>(
+      topSpiele.subList(0, Math.min(count, topSpiele.size()))
+    );
   }
 
   /**
@@ -91,7 +105,8 @@ public class Publisher {
    * @return the average discount in %
    */
   public double calculateAverageDiscount() {
-    if (publisherSales == null) return 0;
+    ArrayList<PublisherSale> publisherSales = getPublisherSales();
+    if (publisherSales == null || publisherSales.isEmpty()) return 0;
     double avg = 0;
     for (PublisherSale ps : publisherSales) {
       avg += ps.getRabatt();
@@ -107,6 +122,7 @@ public class Publisher {
    * @return first Bundle with the most sales
    */
   public Bundle getMostPopularBundle(Date start, Date end) {
+    ArrayList<Bundle> bundles = getBundles();
     if (bundles == null || bundles.isEmpty()) return null;
     Bundle pBundle = null;
     for (Bundle bundle : bundles) {
@@ -124,7 +140,7 @@ public class Publisher {
    */
   public Boolean validatePublisherSaleLimit() {
     Angebot.cleanupExpiredAngebote();
-    return publisherSales.size() >= MAX_PUBLISHER_SALES;
+    return getPublisherSales().size() >= MAX_PUBLISHER_SALES;
   }
 
   /**
@@ -138,20 +154,29 @@ public class Publisher {
       writer.write("# Publisher " + this.fname + " - " + this.motto + "\n");
 
       writer.write("## Games\n");
-      for (Spiel game : this.spiele) {
+      for (Spiel game : getSpiele()) {
         writer.write("- " + game.getName() + "\n");
       }
 
       writer.write("\n## Abos\n");
-      for (Spiel game : this.spiele) {
+      for (Spiel game : getSpiele()) {
         for (Abo abo : game.getAbos()) {
           writer.write("- **" + game.getName() + "**: " + abo.getType() + "\n");
         }
       }
 
       writer.write("\n## Revenue\n");
-      writer.write("**Revenue:** " + this.calculatePublisherRevenue(new Date(), new Date()) + "\n");
-      writer.write("**Average Discount:** " + this.calculateAverageDiscount() + "\n");
+      writer.write(
+        "**Revenue:** " +
+          this.calculatePublisherRevenue(
+            new Date(0),
+            new Date(Long.MAX_VALUE)
+          ) +
+          "\n"
+      );
+      writer.write(
+        "**Average Discount:** " + this.calculateAverageDiscount() + "\n"
+      );
 
       writer.close();
     } catch (IOException e) {
@@ -160,6 +185,21 @@ public class Publisher {
     }
 
     return true;
+  }
+
+  /** Calculates the publishers revenue with a new publisher sale rabatt
+   *
+   * @param rabatt the rabatt to impact the revenue
+   * @return the estimated revenue
+   */
+  public double simulateRabattImpact(double rabatt) {
+    double boundedRabatt = Math.max(0, Math.min(100, rabatt));
+    double revenue = calculatePublisherRevenue(
+      new Date(0),
+      new Date(Long.MAX_VALUE)
+    );
+
+    return (revenue * (100 - boundedRabatt)) / 100.0;
   }
 
   public String getFname() {
@@ -171,19 +211,13 @@ public class Publisher {
   }
 
   public boolean addPublisherSale(PublisherSale publisherSale) {
-    return publisherSales.add(publisherSale);
-  }
-
-  public ArrayList<PublisherSale> getPublisherSales() {
-    return publisherSales;
+    publisherSale.setPublisher(this);
+    return DataManager.getInstance().addPublisherSale(publisherSale);
   }
 
   public boolean addSpiel(Spiel spiel) {
-    return spiele.add(spiel);
-  }
-
-  public ArrayList<Spiel> getSpiele() {
-    return spiele;
+    spiel.setPublisher(this);
+    return DataManager.getInstance().addSpiel(spiel);
   }
 
   public boolean addPurchase(Purchase purchase) {
@@ -195,16 +229,13 @@ public class Publisher {
   }
 
   public boolean addBundle(Bundle bundle) {
-    return bundles.add(bundle);
+    bundle.setPublisher(this);
+    return DataManager.getInstance().addBundle(bundle);
   }
 
-  public ArrayList<Bundle> getBundles() {
-    return bundles;
-  }
-
-  protected int getCurrentAbos(Spiel spiel){
+  protected int getCurrentAbos(Spiel spiel) {
     int count = 0;
-    for (Purchase p : purchases){
+    for (Purchase p : purchases) {
       Abo s = p.getSubscription();
       if (s == null) continue;
       if (s.getGame() != spiel) continue;
@@ -215,6 +246,20 @@ public class Publisher {
 
   @Override
   public String toString() {
-    return "Publisher [fname=" + fname + ", motto=" + motto + "]";
+    return (
+      "Publisher [fname=" +
+      fname +
+      ", motto=" +
+      motto +
+      ", publisherSales=" +
+      getPublisherSales() +
+      ", spiele=" +
+      getSpiele() +
+      ", purchases=" +
+      purchases +
+      ", bundles=" +
+      getBundles() +
+      "]"
+    );
   }
 }

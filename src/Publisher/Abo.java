@@ -33,4 +33,19 @@ public class Abo {
   public double getRent() {
     return rent;
   }
+
+  @Override
+  public String toString() {
+    return (
+      "Abo [type=" +
+      type +
+      ", duration=" +
+      duration +
+      ", rent=" +
+      rent +
+      ", game=" +
+      game +
+      "]"
+    );
+  }
 }
