@@ -127,6 +127,11 @@ public class Publisher {
     return publisherSales.size() >= MAX_PUBLISHER_SALES;
   }
 
+  /**
+   * Generate a md file with infos about the publisher
+   * @param reportPath Where to write the report
+   * @return true on success, false on fail
+   */
   public boolean generatePublisherReport(String reportPath) {
     try {
       FileWriter writer = new FileWriter(reportPath);
