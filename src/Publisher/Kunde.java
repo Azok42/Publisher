@@ -22,15 +22,12 @@ public class Kunde {
   public ArrayList<Spiel> recommendSpieleForKunde() {
     ArrayList<String> ownedGenres = new ArrayList<>();
     ArrayList<Publisher> ownedPublisher = new ArrayList<>();
-    double avgOwnedRating = 0;
-    int counter = 0;
 
     for (Purchase purchase : purchases) {
       if (purchase.getSubscription() != null)
         continue;
 
       if (purchase.getPurchasedGame() != null) {
-        counter++;
         for (String genre : purchase.getPurchasedGame().getGenres()) {
           if (!ownedGenres.contains(genre))
             ownedGenres.add(genre);
@@ -38,14 +35,11 @@ public class Kunde {
 
         if (!ownedPublisher.contains(purchase.getPurchasedGame().getPublisher()))
           ownedPublisher.add(purchase.getPurchasedGame().getPublisher());
-
-        avgOwnedRating += purchase.getPurchasedGame().getBewertung();
       }
 
 
       if (purchase.getPurchasedBundle() != null)
         for (Spiel game : purchase.getPurchasedBundle().getSpiele()) {
-          counter++;
           for (String genre : game.getGenres()) {
             if (!ownedGenres.contains(genre))
               ownedGenres.add(genre);
@@ -53,11 +47,8 @@ public class Kunde {
 
           if (!ownedPublisher.contains(game.getPublisher()))
             ownedPublisher.add(game.getPublisher());
-
-          avgOwnedRating += game.getBewertung();
         }
     }
-    avgOwnedRating /= counter;
 
     ArrayList<Spiel> recommendedSpiele = new ArrayList<>();
     DataManager dataManager = DataManager.getInstance();
