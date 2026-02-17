@@ -187,14 +187,4 @@ public class Kunde {
   protected boolean addPurchase(Purchase purchase) {
     return purchases.add(purchase);
   }
-
-  public ArrayList<Spiel> getSpieleFromPublisherSales() {
-    ArrayList<Spiel> result = new ArrayList<>();
-    for (Purchase p : purchases) {
-      if (p.getPublisherSale() != null) {
-        //TODO: Track games from publisher sales
-      }
-    }
-    return result;
-  }
 }
