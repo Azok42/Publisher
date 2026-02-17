@@ -1,6 +1,7 @@
 package Publisher;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Kunde {
 
@@ -11,7 +12,7 @@ public class Kunde {
   public Kunde(String email, String user) {
     this.email = email;
     this.user = user;
-    purchases = new ArrayList<Purchase>();
+    purchases = new ArrayList<>();
   }
 
   /**
@@ -78,8 +79,55 @@ public class Kunde {
     return recommendedSpiele;
   }
 
+  /**
+   * Creates a new PublisherSale object based on owned games and add it to the publisher
+   * @param publisher
+   * @return PublisherSale with Spiele based on owned games
+   */
   public PublisherSale generatePersonalizedSale(Publisher publisher) {
-    return null; //TODO: Implement generatePersonalizedSale
+    PublisherSale sale = new PublisherSale("Personal Sale", "", new Date(), new Date(), 33);
+    ArrayList<String> ownedGenres = new ArrayList<>();
+    ArrayList<Spiel> ownedGames = new ArrayList<>();
+
+    for (Purchase purchase : purchases) {
+        if (purchase.getSubscription() != null)
+        continue;
+
+      if (purchase.getPurchasedGame() != null) {
+        if (purchase.getPurchasedGame().getPublisher().equals(publisher))
+          ownedGames.add(purchase.getPurchasedGame());
+        for (String genre : purchase.getPurchasedGame().getGenres()) {
+          if (!ownedGenres.contains(genre))
+            ownedGenres.add(genre);
+        }
+      }
+
+      if (purchase.getPurchasedBundle() != null)
+        for (Spiel game : purchase.getPurchasedBundle().getSpiele()) {
+          if (game.getPublisher().equals(publisher))
+            ownedGames.add(game);
+          for (String genre : game.getGenres()) {
+            if (!ownedGenres.contains(genre))
+              ownedGenres.add(genre);
+          }
+        }
+    }
+
+    for (Spiel game : publisher.getSpiele()) {
+      double genreSimilarity = 0;
+      for (String genre : game.getGenres()) {
+        if (ownedGenres.contains(genre))
+          genreSimilarity++;
+      }
+      genreSimilarity /= game.getGenres().size();
+
+      if (genreSimilarity >= 0.5 && !ownedGames.contains(game))
+        sale.addGame(game);
+    }
+
+    publisher.addPublisherSale(sale);
+
+    return sale;
   }
 
   public String getEmail() {
