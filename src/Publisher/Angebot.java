@@ -17,6 +17,14 @@ public abstract class Angebot {
   }
 
   /**
+   * Checks if this Angebot is expired (end date is before now)
+   * @return true if expired, false otherwise
+   */
+  public boolean isExpired() {
+    return end.before(new Date());
+  }
+
+  /**
    * Deletes all expired Angebote from the DataManager
    *
    * @return the amount of cleaned Angebote
@@ -24,13 +32,22 @@ public abstract class Angebot {
   public static int cleanupExpiredAngebote() {
     DataManager dataManager = DataManager.getInstance();
     int counter = 0;
+    Date now = new Date();
 
-    for (Bundle bundle : dataManager.getAllBundles()) {
-      counter += dataManager.removeBundle(bundle) ? 1 : 0;
+    for (Bundle bundle : new java.util.ArrayList<>(
+      dataManager.getAllBundles()
+    )) {
+      if (bundle.getEnd().before(now)) {
+        counter += dataManager.removeBundle(bundle) ? 1 : 0;
+      }
     }
 
-    for (PublisherSale sale : dataManager.getAllPublisherSales()) {
-      counter += dataManager.removePublisherSale(sale) ? 1 : 0;
+    for (PublisherSale sale : new java.util.ArrayList<>(
+      dataManager.getAllPublisherSales()
+    )) {
+      if (sale.getEnd().before(now)) {
+        counter += dataManager.removePublisherSale(sale) ? 1 : 0;
+      }
     }
 
     return counter;

@@ -6,7 +6,7 @@ public class Spiel {
 
   private String name;
   private double price;
-  private int bewertung; // 1 - 10
+  private double bewertung; // 1 - 10, changed to double for accurate averages
   private ArrayList<String> genres;
   private ArrayList<Integer> bewertungen;
   private Publisher publisher;
@@ -24,8 +24,15 @@ public class Spiel {
     this.genres = genres;
     this.price = price;
     this.bewertungen = bewertungen;
-    for (int b : this.bewertungen) if (b > 0 && b < 11) this.bewertung += b;
-    this.bewertung /= this.bewertungen.size();
+    this.bewertung = 0;
+    for (int b : this.bewertungen) {
+      if (b >= 1 && b <= 10) {
+        this.bewertung += b;
+      }
+    }
+    if (!this.bewertungen.isEmpty()) {
+      this.bewertung /= this.bewertungen.size();
+    }
     this.publisher = publisher;
     abos = new ArrayList<>();
     bundles = new ArrayList<>();
@@ -40,21 +47,26 @@ public class Spiel {
   public double rate(int rating) {
     if (rating < 1 || rating > 10) return -1;
     bewertungen.add(rating);
-    int newBewertung = 0;
+    double newBewertung = 0;
     for (int b : bewertungen) {
-      if (bewertung > 0 && bewertung < 11) newBewertung += b;
-      else return -1;
+      if (b >= 1 && b <= 10) {
+        newBewertung += b;
+      } else {
+        return -1;
+      }
     }
     bewertung = newBewertung / bewertungen.size();
     return bewertung;
   }
 
-  public int getBewertung() {
+  public double getBewertung() {
     return this.bewertung;
   }
 
   /**
-   * Calculates the optimal price in comparison to the publishers other games price, accounting for their rating and abo count
+   * Calculates the optimal price in comparison to the publishers other games price,
+   * accounting for their rating and abo count.
+   * If no other games have subscriptions, uses rating-weighted average.
    *
    * @return the optimal price
    */
@@ -62,8 +74,27 @@ public class Spiel {
     ArrayList<Spiel> otherGames = new ArrayList<>(publisher.getSpiele());
     double optimalPrice = 0;
     double weightSum = 0;
-    double maxAbos = 0;
 
+    int totalAbos = 0;
+    for (Spiel og : otherGames) {
+      if (og != this) {
+        totalAbos += publisher.getCurrentAbos(og);
+      }
+    }
+
+    if (totalAbos == 0) {
+      for (Spiel og : otherGames) {
+        if (og == this) continue;
+        double bew = og.getBewertung() / 10.0;
+        if (bew > 0 && og.getPrice() > 0) {
+          optimalPrice += og.getPrice() * bew;
+          weightSum += bew;
+        }
+      }
+      return weightSum == 0 ? 0 : optimalPrice / weightSum;
+    }
+
+    double maxAbos = 0;
     for (Spiel og : otherGames) {
       int currentAbos = publisher.getCurrentAbos(og);
       if (currentAbos > maxAbos) {
@@ -75,8 +106,9 @@ public class Spiel {
       if (og == this) continue;
       double bew = og.getBewertung() / 10.0;
       int abosCount = publisher.getCurrentAbos(og);
-      if (bew > 0 && abosCount > 0 && maxAbos > 0) {
-        double weight = bew * (abosCount / maxAbos);
+      if (bew > 0 && maxAbos > 0) {
+        double aboWeight = abosCount > 0 ? (abosCount / maxAbos) : 0.1;
+        double weight = bew * aboWeight;
         optimalPrice += og.getPrice() * weight;
         weightSum += weight;
       }
@@ -135,6 +167,10 @@ public class Spiel {
     return publisher;
   }
 
+  public void setPublisher(Publisher publisher) {
+    this.publisher = publisher;
+  }
+
   @Override
   public String toString() {
     return (
@@ -149,11 +185,11 @@ public class Spiel {
       ", bewertungen=" +
       bewertungen +
       ", publisher=" +
-      publisher +
+      publisher.getFname() +
       ", abos=" +
-      abos +
+      abos.size() +
       ", bundles=" +
-      bundles +
+      bundles.size() +
       "]"
     );
   }
