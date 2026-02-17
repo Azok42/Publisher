@@ -6,7 +6,7 @@ import java.util.Date;
 public class PublisherSale extends Angebot {
 
   private double rabatt; // 0 - 100
-  private ArrayList<Purchase> purchases;
+  private ArrayList<Spiel> games; //Purchase makes no sense... .,.
 
   public PublisherSale(
     String label,
@@ -27,12 +27,11 @@ public class PublisherSale extends Angebot {
     return rabatt;
   }
 
-  public ArrayList<Purchase> getPurchases() {
-    return purchases;
+  public ArrayList<Spiel> getGames() {
+    return games;
   }
 
-  public boolean addPurchase(Purchase purchase) {
-    //TODO: validate Date for addPurchase
-    return purchases.add(purchase);
+  public boolean addGame(Spiel game) {
+    return games.add(game);
   }
 }
