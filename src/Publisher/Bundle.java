@@ -63,6 +63,10 @@ public class Bundle extends Angebot {
     return price;
   }
 
+  public void setPrice(double price) {
+    this.price = price;
+  }
+
   public ArrayList<Spiel> getSpiele() {
     return spiele;
   }
